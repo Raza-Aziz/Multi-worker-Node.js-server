@@ -1,0 +1,24 @@
+{
+  "name": "multi-worker-node.js-server",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Raza-Aziz/Multi-worker-Node.js-server#readme",
+  "bugs": {
+    "url": "https://github.com/Raza-Aziz/Multi-worker-Node.js-server/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raza-Aziz/Multi-worker-Node.js-server.git"
+  },
+  "license": "ISC",
+  "author": "Raza Aziz",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test",
+    "run": "node index.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
