@@ -13,6 +13,14 @@ if (cluster.isPrimary) {
     cluster.fork();
     console.log(`Worker ${i} started`);
   }
+
+  cluster.on("exit", (worker, code, signal) => {
+    console.log(
+      `Worker ${worker.id} exited with code ${code} and signal ${signal}`,
+    );
+    cluster.fork();
+    console.log(`Worker ${worker.id} restarted`);
+  });
 } else if (cluster.isWorker) {
   const app = express();
 
@@ -21,9 +29,19 @@ if (cluster.isPrimary) {
     console.log(`Worker ${cluster.worker.id} received request`);
   });
 
+  app.get("/crash", (req, res) => {
+    res.send(`Worker ${cluster.worker.id} crashed`);
+
+    setTimeout(() => {
+      process.exit(1);
+    }, 1000);
+  });
+
   app.listen(port, () => {
     console.log(
       `Server running at http://localhost:${port} with ${cpuCount} workers`,
     );
   });
+
+  cluster.on("exit", (worker) => {});
 }
