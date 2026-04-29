@@ -16,6 +16,11 @@ if (cluster.isPrimary) {
 } else if (cluster.isWorker) {
   const app = express();
 
+  app.get("/", (req, res) => {
+    res.send(`Hello World by ${cluster.worker.id}`);
+    console.log(`Worker ${cluster.worker.id} received request`);
+  });
+
   app.listen(port, () => {
     console.log(
       `Server running at http://localhost:${port} with ${cpuCount} workers`,
