@@ -37,11 +37,18 @@ if (cluster.isPrimary) {
     }, 1000);
   });
 
-  app.listen(port, () => {
+  const server = app.listen(port, () => {
     console.log(
-      `Server running at http://localhost:${port} with ${cpuCount} workers`,
+      `Server running at http://localhost:${port} by Worker: ${cluster.worker.id}`,
     );
   });
 
-  cluster.on("exit", (worker) => {});
+  process.on("SIGINT", () => {
+    console.log("Received SIGINT. Performing cleanup...");
+
+    server.close(() => {
+      console.log(`Worker ${cluster.worker.id} closed.`);
+      process.exit(0);
+    });
+  });
 }
